@@ -1,13 +1,11 @@
-# Waveshare ESP32-S3-Touch-LCD-4.3C 产品工程示例程序
+# Waveshare RGB-Matrix-Px-xx 产品工程示例程序
 
 [English](README.md)
 
-ESP32-S3-Touch-LCD-4.3C 集成了 4.3 英寸电容触摸屏和音频模块，支持小智 AI 语音交互和 LVGL 图形界面。它集显示、触摸和语音功能于一体，助您轻松打造智能人机交互终端。
+RGB-Matrix-Px-xx 是一款基于 HUB75 接口的全彩 LED 点阵显示屏，支持多级联扩展与高刷新率显示，适用于动态画面与大屏显示应用。结合高效驱动方式（如 DMA / 并行输出）与图形库（如 LVGL），可实现丰富的图形界面与动画效果，便于快速构建信息展示与可视化系统。
 
-- [购买链接](https://www.waveshare.net/shop/ESP32-S3-Touch-LCD-4.3C.htm)
-- [产品文档](https://docs.waveshare.net/ESP32-S3-Touch-LCD-4.3C/)
-
-![主图](./assets/Product-1.webp)
+- [购买链接](https://www.waveshare.net/shop/RGB-Matrix-Px-xx.htm)
+- [产品文档](https://docs.waveshare.net/RGB-Matrix-Px-xx/)
 
 ---
 
@@ -32,7 +30,7 @@ ESP32-S3-Touch-LCD-4.3C 集成了 4.3 英寸电容触摸屏和音频模块，支
 
 如果您遇到任何问题：
 
-- 请先查看 [Issues](https://gitee.com/waveshare/esp32-s3-touch-lcd-4.3-c/issues) 版块。
+- 请先查看 [Issues](https://gitee.com/waveshare/RGB-Matrix-Px-xx/issues) 版块。
 - 创建一个新的 Issue 并提供详细信息。
 - 参考文档获取故障排除提示。
 - 联系微雪团队并提供订单号以获取技术支持。
