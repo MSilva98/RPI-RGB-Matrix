@@ -48,6 +48,13 @@
 
 /* USER CODE BEGIN PV */
 static UWORD gui_framebuffer[HUB75_PANEL_WIDTH * HUB75_PANEL_HEIGHT];
+
+#define UI_BASE_WIDTH   (64u)
+#define UI_BASE_HEIGHT  (32u)
+#define UI_OFFSET_X     ((HUB75_PANEL_WIDTH  - UI_BASE_WIDTH) / 2u)
+#define UI_OFFSET_Y     ((HUB75_PANEL_HEIGHT - UI_BASE_HEIGHT) / 2u)
+#define UI_X(x)         ((UWORD)((x) + UI_OFFSET_X))
+#define UI_Y(y)         ((UWORD)((y) + UI_OFFSET_Y))
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -94,30 +101,30 @@ static void App_DrawPage(UWORD page)
   switch (page)
   {
     case 0U:
-      Paint_DrawPoint(44, 9, WHITE, DOT_PIXEL_1X1, DOT_STYLE_DFT);
-      Paint_DrawPoint(47, 8, WHITE, DOT_PIXEL_2X2, DOT_STYLE_DFT);
-      Paint_DrawPoint(52, 7, WHITE, DOT_PIXEL_3X3, DOT_STYLE_DFT);
-      Paint_DrawPoint(59, 6, WHITE, DOT_PIXEL_4X4, DOT_STYLE_DFT);
+      Paint_DrawPoint(UI_X(44), UI_Y(9), WHITE, DOT_PIXEL_1X1, DOT_STYLE_DFT);
+      Paint_DrawPoint(UI_X(47), UI_Y(8), WHITE, DOT_PIXEL_2X2, DOT_STYLE_DFT);
+      Paint_DrawPoint(UI_X(52), UI_Y(7), WHITE, DOT_PIXEL_3X3, DOT_STYLE_DFT);
+      Paint_DrawPoint(UI_X(59), UI_Y(6), WHITE, DOT_PIXEL_4X4, DOT_STYLE_DFT);
 
-      Paint_DrawLine(20, 11, 20, 31, App_Wheel(1), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
-      Paint_DrawLine(10, 21, 30, 21, App_Wheel(31), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
-      Paint_DrawCircle(20, 21, 10, App_Wheel(14), DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
-      Paint_DrawPoint(20, 21, (UWORD)(App_Wheel(1) | App_Wheel(31)), DOT_PIXEL_1X1, DOT_FILL_RIGHTUP);
+      Paint_DrawLine(UI_X(20), UI_Y(11), UI_X(20), UI_Y(31), App_Wheel(1), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+      Paint_DrawLine(UI_X(10), UI_Y(21), UI_X(30), UI_Y(21), App_Wheel(31), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+      Paint_DrawCircle(UI_X(20), UI_Y(21), 10, App_Wheel(14), DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
+      Paint_DrawPoint(UI_X(20), UI_Y(21), (UWORD)(App_Wheel(1) | App_Wheel(31)), DOT_PIXEL_1X1, DOT_FILL_RIGHTUP);
 
-      Paint_DrawLine(44, 11, 44, 31, App_Wheel(16), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
-      Paint_DrawLine(34, 21, 54, 21, App_Wheel(63), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
-      Paint_DrawCircle(44, 21, 10, App_Wheel(54), DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
-      Paint_DrawPoint(44, 21, (UWORD)(App_Wheel(16) | App_Wheel(63)), DOT_PIXEL_1X1, DOT_FILL_RIGHTUP);
+      Paint_DrawLine(UI_X(44), UI_Y(11), UI_X(44), UI_Y(31), App_Wheel(16), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+      Paint_DrawLine(UI_X(34), UI_Y(21), UI_X(54), UI_Y(21), App_Wheel(63), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+      Paint_DrawCircle(UI_X(44), UI_Y(21), 10, App_Wheel(54), DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
+      Paint_DrawPoint(UI_X(44), UI_Y(21), (UWORD)(App_Wheel(16) | App_Wheel(63)), DOT_PIXEL_1X1, DOT_FILL_RIGHTUP);
 
-      Paint_DrawRectangle(1, 1, 64, 32, App_Wheel(6), DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
+      Paint_DrawRectangle(UI_X(1), UI_Y(1), UI_X(64), UI_Y(32), App_Wheel(6), DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
       break;
     case 1U:
-      Paint_DrawString_EN(5, 0, "Hello", &Font16, BLACK, YELLOW);
-      Paint_DrawString_EN(5, 15, "world", &Font12, MAGENTA, BLACK);
+      Paint_DrawString_EN(UI_X(5), UI_Y(0), "Hello", &Font16, BLACK, YELLOW);
+      Paint_DrawString_EN(UI_X(5), UI_Y(15), "world", &Font12, MAGENTA, BLACK);
       break;
     default:
-      Paint_DrawString_EN(1, 0, "Page3", &Font12, App_Wheel(35), BLACK);
-      Paint_DrawNum(1, 20, 23.456789, &Font12, 2, App_Wheel(90), BLACK);
+      Paint_DrawString_EN(UI_X(1), UI_Y(0), "Page3", &Font12, App_Wheel(35), BLACK);
+      Paint_DrawNum(UI_X(1), UI_Y(20), 23.456789, &Font12, 2, App_Wheel(90), BLACK);
       break;
   }
 
@@ -176,7 +183,7 @@ int main(void)
 	
   DWT_Init();
   HUB75_Init();
-  HUB75_SetBrightness(255); // the parameter is 0-255，the higher the number，the brighter the screen is
+  HUB75_SetBrightness(128); // the parameter is 0-255，the higher the number，the brighter the screen is
   HUB75_SetRefreshRate(1); // the parameter is 1-4，the higher the number，the lower the refresh rate is
   App_DrawGuiScreen();
 

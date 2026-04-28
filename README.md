@@ -1,14 +1,13 @@
-# Waveshare ESP32-S3-Touch-LCD-4.3C Product Engineering Sample Program
+# Waveshare RGB-Matrix-Px-xx Product Engineering Sample Program
 
 [中文](README_ZH.md)
 
-ESP32-S3-Touch-LCD-4.3C integrates a 4.3-inch capacitive touch screen and audio module, supporting Xiaozhi AI voice interaction and LVGL graphical interface. It combines display, touch and voice functions, enabling you to easily create an intelligent human-computer interaction terminal.
+This series of products is a full-color LED dot matrix display that supports RGB color display, multiple spacing options, supports Raspberry Pi, Arduino, ESP32, etc. It provides supporting open source routines and tutorials, suitable for makers or electronics enthusiasts to get started., or DIY secondary development into other desktop or wall-mounted display applications.
 
-- [Purchase Link](https://www.waveshare.com/esp32-s3-touch-lcd-4.3c.htm)
-- [Documentation](https://docs.waveshare.com/ESP32-S3-Touch-LCD-4.3C)
+- [Purchase Link](https://www.waveshare.com/shop/rgb-matrix-p2-64x64.htm)
+- [Documentation](https://docs.waveshare.com/LED)
 
-![Product Image](./assets/Product-1.webp)
-
+![Product Image](./assets/produce-01.webp)
 ---
 
 ## 🔧 Configuration
@@ -32,7 +31,7 @@ We welcome contributions! Here’s how you can help:
 
 If you encounter any issues:
 
-- Check the [Issues](https://github.com/waveshareteam/ESP32-S3-Touch-LCD-4.3C/issues) section.
+- Check the [Issues](https://github.com/waveshare/RGB-Matrix-Px-xx/issues) section.
 - Create a new issue with detailed information.
 - Refer to the documentation for troubleshooting tips.
 - Contact the Waveshare team and provide the order number to obtain technical support.
