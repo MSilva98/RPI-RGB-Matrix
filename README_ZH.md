@@ -4,7 +4,7 @@
 
 本系列产品为全彩 LED 点阵显示屏，支持RGB色彩显示，多种间距选择，支持 Raspberry Pi、 Arduino、ESP32 等，提供配套的开源例程和教程，适合创客或电子爱好者入门学习，或DIY二次开发成其他桌面或挂墙类的显示应用。
 
--  [aaa](https://www.waveshare.net/shop/RGB-Matrix-P2-64x64.htm)
+-  [购买链接](https://www.waveshare.net/shop/RGB-Matrix-P2-64x64.htm)
 -  [产品文档](https://docs.waveshare.net/LED)
 
 ![Product Image](./assets/produce-01.webp)
