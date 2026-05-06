@@ -98,5 +98,6 @@ void rgbw_start(void) {
 }
 
 void app_main(){
+  bsp_init_display();
   rgbw_start();
 }
