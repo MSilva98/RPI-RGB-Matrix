@@ -26,7 +26,7 @@
 #include "pins_arduino.h"
 #endif
 #include "Adafruit_GFX.h"
-#include "fonts.h"
+#include "Fonts/fonts.h"
 
 
 #if defined(__AVR__)

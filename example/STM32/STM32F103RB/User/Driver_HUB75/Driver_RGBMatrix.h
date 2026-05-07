@@ -22,7 +22,7 @@
 #define HUB75_PANEL_PROFILE_96X48_1_24 (4u)
 
 #ifndef HUB75_PANEL_PROFILE
-#define HUB75_PANEL_PROFILE HUB75_PANEL_PROFILE_80X40_1_20 
+#define HUB75_PANEL_PROFILE HUB75_PANEL_PROFILE_64X64_1_32 
 #endif
 
 #if (HUB75_PANEL_PROFILE == HUB75_PANEL_PROFILE_64X32_1_16)
@@ -108,7 +108,7 @@ extern uint8_t hub75_panel_buff[HUB75_PANEL_WIDTH * HUB75_PANEL_HEIGHT / 2 * 3];
 extern uint8_t hub75_color;
 extern uint8_t hub75_blink;
 extern HUB75_port RGB_Matrix;
-extern volatile uint8_t display_tick;
+extern volatile uint16_t display_tick;
 
 void HUB75_Init(void);
 void HUB75_Display(void);

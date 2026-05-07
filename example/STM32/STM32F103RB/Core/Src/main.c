@@ -48,13 +48,6 @@
 
 /* USER CODE BEGIN PV */
 static UWORD gui_framebuffer[HUB75_PANEL_WIDTH * HUB75_PANEL_HEIGHT];
-
-#define UI_BASE_WIDTH   (64u)
-#define UI_BASE_HEIGHT  (32u)
-#define UI_OFFSET_X     ((HUB75_PANEL_WIDTH  - UI_BASE_WIDTH) / 2u)
-#define UI_OFFSET_Y     ((HUB75_PANEL_HEIGHT - UI_BASE_HEIGHT) / 2u)
-#define UI_X(x)         ((UWORD)((x) + UI_OFFSET_X))
-#define UI_Y(y)         ((UWORD)((y) + UI_OFFSET_Y))
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -65,6 +58,36 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+typedef struct
+{
+  UWORD x;
+  UWORD y;
+  UWORD width;
+  UWORD height;
+} UiRect;
+
+static UWORD app_color_444(UWORD r4, UWORD g4, UWORD b4)
+{
+  UWORD r5 = (UWORD)((r4 << 1) | (r4 >> 3));
+  UWORD g6 = (UWORD)((g4 << 2) | (g4 >> 2));
+  UWORD b5 = (UWORD)((b4 << 1) | (b4 >> 3));
+
+  return (UWORD)((r5 << 11) | (g6 << 5) | b5);
+}
+
+static UWORD app_low_flicker_level(UWORD value5)
+{
+  UWORD value4 = (UWORD)((value5 * 15U + 15U) / 31U);
+
+  /* Avoid the dimmest non-zero levels because they rely on the weakest BCM planes. */
+  if ((value4 != 0U) && (value4 < 4U))
+  {
+    value4 = 4U;
+  }
+
+  return value4;
+}
 
 static UWORD App_Wheel(UWORD value)
 {
@@ -91,40 +114,113 @@ static UWORD App_Wheel(UWORD value)
       break;
   }
 
-  return (UWORD)((r << 11) | ((g << 1) << 5) | b);
+  return app_color_444(app_low_flicker_level(r),
+                       app_low_flicker_level(g),
+                       app_low_flicker_level(b));
+}
+
+static UWORD app_string_width(const char *text, sFONT *font)
+{
+  UWORD length = 0U;
+
+  while (text[length] != '\0')
+  {
+    length++;
+  }
+
+  return (UWORD)(length * font->Width);
+}
+
+static UiRect app_center_rect(UWORD container_width, UWORD container_height,
+                              UWORD content_width, UWORD content_height)
+{
+  UiRect rect;
+
+  rect.width = content_width;
+  rect.height = content_height;
+  rect.x = (container_width > content_width) ? (UWORD)((container_width - content_width) / 2U) : 0U;
+  rect.y = (container_height > content_height) ? (UWORD)((container_height - content_height) / 2U) : 0U;
+
+  return rect;
+}
+
+static UiRect app_page_bounds(UWORD page)
+{
+  UiRect bounds = {0U, 0U, HUB75_PANEL_WIDTH, HUB75_PANEL_HEIGHT};
+  UWORD width_page1 = app_string_width("Hello", &Font16);
+  UWORD width_page2 = app_string_width("world", &Font12);
+  UWORD width_page3 = app_string_width("Page3", &Font12);
+  UWORD width_number = app_string_width("23.45", &Font12);
+
+  switch (page)
+  {
+    case 0U:
+      bounds.x = 0U;
+      bounds.y = 0U;
+      bounds.width = 64U;
+      bounds.height = 32U;
+      break;
+    case 1U:
+      bounds.x = 5U;
+      bounds.y = 0U;
+      bounds.width = (width_page1 > width_page2) ? width_page1 : width_page2;
+      bounds.height = (UWORD)(15U + Font12.Height);
+      break;
+    default:
+      bounds.x = 1U;
+      bounds.y = 0U;
+      bounds.width = (width_page3 > width_number) ? width_page3 : width_number;
+      bounds.height = (UWORD)(20U + Font12.Height);
+      break;
+  }
+
+  return bounds;
+}
+
+static UWORD app_page_x(UiRect bounds, UiRect layout, UWORD x)
+{
+  return (UWORD)(layout.x + x - bounds.x);
+}
+
+static UWORD app_page_y(UiRect bounds, UiRect layout, UWORD y)
+{
+  return (UWORD)(layout.y + y - bounds.y);
 }
 
 static void App_DrawPage(UWORD page)
 {
+  UiRect bounds = app_page_bounds(page);
+  UiRect layout = app_center_rect(HUB75_PANEL_WIDTH, HUB75_PANEL_HEIGHT, bounds.width, bounds.height);
+
   Paint_Clear(BLACK);
 
   switch (page)
   {
     case 0U:
-      Paint_DrawPoint(UI_X(44), UI_Y(9), WHITE, DOT_PIXEL_1X1, DOT_STYLE_DFT);
-      Paint_DrawPoint(UI_X(47), UI_Y(8), WHITE, DOT_PIXEL_2X2, DOT_STYLE_DFT);
-      Paint_DrawPoint(UI_X(52), UI_Y(7), WHITE, DOT_PIXEL_3X3, DOT_STYLE_DFT);
-      Paint_DrawPoint(UI_X(59), UI_Y(6), WHITE, DOT_PIXEL_4X4, DOT_STYLE_DFT);
+      Paint_DrawPoint(app_page_x(bounds, layout, 44U), app_page_y(bounds, layout, 9U), WHITE, DOT_PIXEL_1X1, DOT_STYLE_DFT);
+      Paint_DrawPoint(app_page_x(bounds, layout, 47U), app_page_y(bounds, layout, 8U), WHITE, DOT_PIXEL_2X2, DOT_STYLE_DFT);
+      Paint_DrawPoint(app_page_x(bounds, layout, 52U), app_page_y(bounds, layout, 7U), WHITE, DOT_PIXEL_3X3, DOT_STYLE_DFT);
+      Paint_DrawPoint(app_page_x(bounds, layout, 59U), app_page_y(bounds, layout, 6U), WHITE, DOT_PIXEL_4X4, DOT_STYLE_DFT);
 
-      Paint_DrawLine(UI_X(20), UI_Y(11), UI_X(20), UI_Y(31), App_Wheel(1), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
-      Paint_DrawLine(UI_X(10), UI_Y(21), UI_X(30), UI_Y(21), App_Wheel(31), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
-      Paint_DrawCircle(UI_X(20), UI_Y(21), 10, App_Wheel(14), DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
-      Paint_DrawPoint(UI_X(20), UI_Y(21), (UWORD)(App_Wheel(1) | App_Wheel(31)), DOT_PIXEL_1X1, DOT_FILL_RIGHTUP);
+      Paint_DrawLine(app_page_x(bounds, layout, 20U), app_page_y(bounds, layout, 11U), app_page_x(bounds, layout, 20U), app_page_y(bounds, layout, 31U), App_Wheel(1), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+      Paint_DrawLine(app_page_x(bounds, layout, 10U), app_page_y(bounds, layout, 21U), app_page_x(bounds, layout, 30U), app_page_y(bounds, layout, 21U), App_Wheel(31), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+      Paint_DrawCircle(app_page_x(bounds, layout, 20U), app_page_y(bounds, layout, 21U), 10, App_Wheel(14), DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
+      Paint_DrawPoint(app_page_x(bounds, layout, 20U), app_page_y(bounds, layout, 21U), (UWORD)(App_Wheel(1) | App_Wheel(31)), DOT_PIXEL_1X1, DOT_FILL_RIGHTUP);
 
-      Paint_DrawLine(UI_X(44), UI_Y(11), UI_X(44), UI_Y(31), App_Wheel(16), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
-      Paint_DrawLine(UI_X(34), UI_Y(21), UI_X(54), UI_Y(21), App_Wheel(63), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
-      Paint_DrawCircle(UI_X(44), UI_Y(21), 10, App_Wheel(54), DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
-      Paint_DrawPoint(UI_X(44), UI_Y(21), (UWORD)(App_Wheel(16) | App_Wheel(63)), DOT_PIXEL_1X1, DOT_FILL_RIGHTUP);
+      Paint_DrawLine(app_page_x(bounds, layout, 44U), app_page_y(bounds, layout, 11U), app_page_x(bounds, layout, 44U), app_page_y(bounds, layout, 31U), App_Wheel(16), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+      Paint_DrawLine(app_page_x(bounds, layout, 34U), app_page_y(bounds, layout, 21U), app_page_x(bounds, layout, 54U), app_page_y(bounds, layout, 21U), App_Wheel(63), DOT_PIXEL_1X1, LINE_STYLE_SOLID);
+      Paint_DrawCircle(app_page_x(bounds, layout, 44U), app_page_y(bounds, layout, 21U), 10, App_Wheel(54), DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
+      Paint_DrawPoint(app_page_x(bounds, layout, 44U), app_page_y(bounds, layout, 21U), (UWORD)(App_Wheel(16) | App_Wheel(63)), DOT_PIXEL_1X1, DOT_FILL_RIGHTUP);
 
-      Paint_DrawRectangle(UI_X(1), UI_Y(1), UI_X(64), UI_Y(32), App_Wheel(6), DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
+      Paint_DrawRectangle(app_page_x(bounds, layout, 1U), app_page_y(bounds, layout, 1U), app_page_x(bounds, layout, 64U), app_page_y(bounds, layout, 32U), App_Wheel(6), DOT_PIXEL_1X1, DRAW_FILL_EMPTY);
       break;
     case 1U:
-      Paint_DrawString_EN(UI_X(5), UI_Y(0), "Hello", &Font16, BLACK, YELLOW);
-      Paint_DrawString_EN(UI_X(5), UI_Y(15), "world", &Font12, MAGENTA, BLACK);
+      Paint_DrawString_EN(app_page_x(bounds, layout, 5U), app_page_y(bounds, layout, 0U), "Hello", &Font16, BLACK, YELLOW);
+      Paint_DrawString_EN(app_page_x(bounds, layout, 5U), app_page_y(bounds, layout, 15U), "world", &Font12, MAGENTA, BLACK);
       break;
     default:
-      Paint_DrawString_EN(UI_X(1), UI_Y(0), "Page3", &Font12, App_Wheel(35), BLACK);
-      Paint_DrawNum(UI_X(1), UI_Y(20), 23.456789, &Font12, 2, App_Wheel(90), BLACK);
+      Paint_DrawString_EN(app_page_x(bounds, layout, 1U), app_page_y(bounds, layout, 0U), "Page3", &Font12, App_Wheel(35), BLACK);
+      Paint_DrawNum(app_page_x(bounds, layout, 1U), app_page_y(bounds, layout, 20U), 23.456789, &Font12, 2, App_Wheel(90), BLACK);
       break;
   }
 
@@ -183,7 +279,7 @@ int main(void)
 	
   DWT_Init();
   HUB75_Init();
-  HUB75_SetBrightness(128); // the parameter is 0-255，the higher the number，the brighter the screen is
+  HUB75_SetBrightness(255); // the parameter is 0-255，the higher the number，the brighter the screen is
   HUB75_SetRefreshRate(1); // the parameter is 1-4，the higher the number，the lower the refresh rate is
   App_DrawGuiScreen();
 
