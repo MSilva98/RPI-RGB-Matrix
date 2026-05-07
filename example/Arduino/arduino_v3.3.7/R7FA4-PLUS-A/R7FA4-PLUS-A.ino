@@ -7,7 +7,7 @@
 #include "RGBmatrixPanel.h"
 
 #include "bit_bmp.h"
-#include "fonts.h"
+#include "Fonts/fonts.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -37,8 +37,8 @@
 #define D CONFIG_HUB75_PIN_D
 #define E CONFIG_HUB75_PIN_E
 
-#define Matrix_Width 64
-#define Matrix_Height 32
+#define Matrix_Width 96
+#define Matrix_Height 48
 
 uint8_t hub75_rgb_pins[] = { CONFIG_HUB75_PIN_R1, CONFIG_HUB75_PIN_G1,
                              CONFIG_HUB75_PIN_B1, CONFIG_HUB75_PIN_R2,
