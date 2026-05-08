@@ -3,7 +3,7 @@
 <title>Static Call Graph - [HUB75\HUB75.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image HUB75\HUB75.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Thu May  7 15:18:21 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri May  8 10:05:07 2026
 <BR><P>
 <H3>Maximum Stack Usage =        816 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -608,8 +608,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[53]"></a>HUB75_LoadRGB565Frame</STRONG> (Thumb, 1104 bytes, Stack size 96 bytes, driver_rgbmatrix.o(.text.HUB75_LoadRGB565Frame))
-<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = HUB75_LoadRGB565Frame
+<P><STRONG><a name="[53]"></a>HUB75_LoadRGB565Frame</STRONG> (Thumb, 968 bytes, Stack size 88 bytes, driver_rgbmatrix.o(.text.HUB75_LoadRGB565Frame))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = HUB75_LoadRGB565Frame
 </UL>
 <BR>[Calls]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
@@ -626,7 +626,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[6f]"></a>HUB75_WritePixel</STRONG> (Thumb, 612 bytes, Stack size 40 bytes, driver_rgbmatrix.o(.text.HUB75_WritePixel))
+<P><STRONG><a name="[6f]"></a>HUB75_WritePixel</STRONG> (Thumb, 684 bytes, Stack size 40 bytes, driver_rgbmatrix.o(.text.HUB75_WritePixel))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = HUB75_WritePixel
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HUB75_Display
@@ -876,7 +876,7 @@ Global Symbols
 <H3>
 Local Symbols
 </H3>
-<P><STRONG><a name="[4b]"></a>App_DrawPage</STRONG> (Thumb, 648 bytes, Stack size 56 bytes, main.o(.text.App_DrawPage))
+<P><STRONG><a name="[4b]"></a>App_DrawPage</STRONG> (Thumb, 672 bytes, Stack size 56 bytes, main.o(.text.App_DrawPage))
 <BR><BR>[Stack]<UL><LI>Max Depth = 752<LI>Call Chain = App_DrawPage &rArr; Paint_DrawNum &rArr; Paint_DrawChar &rArr; puts &rArr; fputc &rArr; HAL_UART_Transmit
 </UL>
 <BR>[Calls]<UL><LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HUB75_LoadRGB565Frame

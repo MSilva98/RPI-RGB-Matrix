@@ -167,7 +167,7 @@ static UiRect app_page_bounds(UWORD page)
       bounds.height = (UWORD)(15U + Font12.Height);
       break;
     default:
-      bounds.x = 1U;
+      bounds.x = 0U;
       bounds.y = 0U;
       bounds.width = (width_page3 > width_number) ? width_page3 : width_number;
       bounds.height = (UWORD)(20U + Font12.Height);
@@ -228,7 +228,7 @@ static void App_DrawPage(UWORD page)
 }
 
 static void App_WaitMsWithRefresh(uint32_t wait_ms)
-{
+{ 
   uint32_t t0 = HAL_GetTick();
   while ((HAL_GetTick() - t0) < wait_ms)
   {
