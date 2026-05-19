@@ -61,7 +61,7 @@ else()
     set(BALANCED_LIGHT_OUTPUT_VALUE true)
 endif()
 
-set(PANEL_PROFILE "64X64_1_32")
+set(PANEL_PROFILE "64X32_1_16" CACHE STRING "Hub75 panel profile")
 set_property(CACHE PANEL_PROFILE PROPERTY STRINGS
     "64X32_1_16"
     "64X64_1_32"
