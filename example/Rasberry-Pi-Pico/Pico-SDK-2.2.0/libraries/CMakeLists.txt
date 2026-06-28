@@ -1,3 +1,0 @@
-add_subdirectory(hershey_fonts)
-add_subdirectory(bitmap_fonts)
-add_subdirectory(pico_graphics)
