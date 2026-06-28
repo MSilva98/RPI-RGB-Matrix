@@ -118,7 +118,7 @@ void CopyImageToCanvas(const Magick::Image &image, Canvas *canvas)
 
 int usage(const char *progname)
 {
-  fprintf(stderr, "Usage: %s [led-matrix-options] -i <image-filename> -f <BDF font>\n",
+  fprintf(stderr, "Usage: %s [led-matrix-options]\n",
           progname);
   rgb_matrix::PrintMatrixFlags(stderr);
   return 1;
@@ -184,24 +184,8 @@ int main(int argc, char *argv[])
   Color bg_color(0, 0, 0);
   Color outline_color(0, 0, 0);
 
-  const char *bdf_font_file = NULL;
-  const char *filename = NULL;
-
-  int opt;
-  while ((opt = getopt(argc, argv, "f:i:")) != -1)
-  {
-    switch (opt)
-    {
-    case 'f':
-      bdf_font_file = strdup(optarg);
-      break;
-    case 'i':
-      filename = strdup(optarg);
-      break;
-    default:
-      return usage(argv[0]);
-    }
-  }
+  const char *bdf_font_file = strdup("../fonts/4x6.bdf");
+  const char *filename = strdup("gta-vi-logo.png");
 
   if (bdf_font_file == NULL)
   {
