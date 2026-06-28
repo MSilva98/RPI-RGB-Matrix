@@ -44,6 +44,14 @@ image-example.o : image-example.cc
 image-example: image-example.o $(RGB_LIBRARY)
 	$(CXX) $< -o $@ $(LDFLAGS) $(MAGICK_LDFLAGS)
 
+
+gta-countdown.o : gta-countdown.cc
+	$(CXX) -I$(RGB_INCDIR) $(CXXFLAGS) $(MAGICK_CXXFLAGS) -c -o $@ $<
+
+gta-countdown: gta-countdown.o $(RGB_LIBRARY)
+	$(CXX) $< -o $@ $(LDFLAGS) $(MAGICK_LDFLAGS)
+
+
 # Since the C example uses the C++ library underneath, which depends on C++
 # runtime stuff, you still have to also link -lstdc++
 c-example : c-example.o $(RGB_LIBRARY)
